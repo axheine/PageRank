@@ -12,12 +12,9 @@ import java.io.InputStreamReader;
 import java.io.OutputStreamWriter;
 import java.io.UnsupportedEncodingException;
 import java.io.Writer;
-import java.nio.channels.IllegalSelectorException;
 import java.nio.charset.Charset;
 import java.nio.file.Path;
-import java.nio.file.Paths;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
@@ -65,7 +62,7 @@ public interface Graph {
 	 * @throws IllegalArgumentException
 	 *             si value vaut 0 ou si il existe déjà une arête entre i et j
 	 */
-	void addEdge(int i, int j, int value);
+	void addEdge(int i, int j, float value);
 
 	/**
 	 * Teste l'existence d'une arête donnée
@@ -91,7 +88,7 @@ public interface Graph {
 	 * @throws IndexOutOfBoundsException
 	 *             si i ou j n'est pas un sommet du graphe
 	 */
-	int getWeight(int i, int j);
+	float getWeight(int i, int j);
 
 	/**
 	 * Un itérateur sur tous les voisins d'un sommet donné.
@@ -324,136 +321,10 @@ public interface Graph {
 		}
 		return vertices;
 	}
+
+	/* PROJECT SPECIFIC METHODS */
+	void setVerticeName(int vertice, String name);
+	String getVerticeName(int vertice);
 	
-	public static ShortestPathFromOneVertex bellmanFord(Graph g, int source) {
-		int verticesNb = g.numberOfVertices();
-		int edgesNb = g.numberOfEdges();
-		int distances[] = new int[verticesNb];
-		int ancestors[] = new int[verticesNb];
-		
-		for(int i=0; i<verticesNb; i++) {
-			if(i != source) {
-				distances[i] = Integer.MAX_VALUE;
-				ancestors[i] = -1;
-			} else {
-				ancestors[i] = i;
-			}
-		}
-		
-		for(int i=0; i<edgesNb-1; i++) {
-			g.forEachEdge((edge) -> {
-				int x = edge.getStart();
-				int y = edge.getEnd();
-				int weight = edge.getValue();
-				
-				if(InfiniteOperations.add(distances[x], weight) < distances[y]) {
-					distances[y] = distances[x] + weight;
-					ancestors[y] = x;
-				}
-			});
-		}
-		
-		g.forEachEdge((edge) -> {
-			int x = edge.getStart();
-			int y = edge.getEnd();
-			int weight = edge.getValue();
-			
-			if(InfiniteOperations.add(distances[x], weight) < distances[y]) {
-				throw new IllegalStateException("Negative loop");
-			}
-		});
-		
-		return new ShortestPathFromOneVertex(source, distances, ancestors);
-	}
-
-	public static void main(String[] args) throws UnsupportedEncodingException, FileNotFoundException, IOException {
-		/*
-		// MatGraph
-		Graph g = new MatGraph(4);
-		g.addEdge(0, 1, 1);
-		g.addEdge(0, 2, 5);
-		g.addEdge(0, 3, 4);
-
-		g.addEdge(1, 0, 1);
-		g.addEdge(3, 2, 1);
-		g.addEdge(2, 0, 1);
-
-		System.out.println(g.toGraphviz());
-
-		g.writeToFile("viz_mat.dot");
-
-		// AdjGraph
-		g = new AdjGraph(4);
-		g.addEdge(1, 1, 3);
-		g.addEdge(3, 2, 5);
-		g.addEdge(0, 3, 2);
-
-		g.addEdge(1, 0, 2);
-		g.addEdge(1, 2, 1);
-		g.addEdge(2, 3, 8);
-
-		System.out.println(g.toGraphviz());
-
-		g.writeToFile("viz_adj.dot");
-
-		// Loading
-		g = Graph.makeGraphFromMatrixFile(Paths.get("matrix.mat"), (integer) -> new AdjGraph(integer));
-		System.out.println(g.toGraphviz());
-		g.writeToFile("viz_loaded_mat.dot");
-		
-		
-		// Random
-		g = Graph.makeRandomGraph(5, (integer) -> new AdjGraph(integer));
-		
-		
-		System.out.println(g.toGraphviz());
-		System.out.println("Dfs:" + dfs(g, 0));
-		System.out.println("Bfs:" + bfs(g, 0));
-		int[][] times = timedDepthFirstSearch(g, 0);
-		StringBuffer aString = new StringBuffer();
-		for (int row = 0; row < times.length; row++) {
-			aString.append(row + " : ");
-			for (int col = 0; col < times[row].length; col++) {
-				aString.append(" " + times[row][col]);
-			}
-			aString.append("\n");
-		}
-		System.out.println("Times: \n" + aString.toString());
-		
-		System.out.println(topologicalSort(g, false));
-		g.writeToFile("viz_random.dot");
-		*/
-		
-		Graph g = new MatGraph(6);
-		g.addEdge(0, 1, 3);
-		g.addEdge(0, 2, 1);
-		
-		g.addEdge(1, 0, 3);
-		g.addEdge(1, 2, 1);
-		g.addEdge(1, 3, 2);
-		
-		g.addEdge(2, 0, 1);
-		g.addEdge(2, 1, 1);
-		g.addEdge(2, 3, 3);
-		g.addEdge(2, 4, 5);
-		
-		g.addEdge(3, 1, 2);
-		g.addEdge(3, 2, 3);
-		g.addEdge(3, 4, 1);
-		g.addEdge(3, 5, 3);
-		
-		g.addEdge(4, 2, 5);
-		g.addEdge(4, 3, 1);
-		g.addEdge(4, 5, 1);
-		
-		g.addEdge(5, 3, 3);
-		g.addEdge(5, 4, 1);
-		
-		ShortestPathFromOneVertex paths = Graph.bellmanFord(g, 0);
-		System.out.println(paths);
-		paths.printShortestPathTo(4);
-	}
-	
-
 	
 }

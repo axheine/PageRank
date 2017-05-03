@@ -9,6 +9,7 @@ public class AdjGraph implements Graph {
 	private final ArrayList<LinkedList<Edge>> adj;
 	private final int verticesNumber;
 	private int edgesNumber = 0;
+	private final String[] names;
 	
 	public AdjGraph(int verticesNumber) {
 		adj = new ArrayList<>(verticesNumber);
@@ -16,6 +17,7 @@ public class AdjGraph implements Graph {
 			adj.add(new LinkedList<>());
 		}
 		this.verticesNumber = verticesNumber;
+		names = new String[verticesNumber];
 	}
 	
 	@Override
@@ -29,7 +31,7 @@ public class AdjGraph implements Graph {
 	}
 
 	@Override
-	public void addEdge(int i, int j, int value) {
+	public void addEdge(int i, int j, float value) {
 		if(value <= 0) throw new IllegalArgumentException("weight can't be null or negative");
 		checkEdgesNumber(i, j);
 		
@@ -53,7 +55,7 @@ public class AdjGraph implements Graph {
 	}
 
 	@Override
-	public int getWeight(int i, int j) {
+	public float getWeight(int i, int j) {
 		checkEdgesNumber(i, j);
 		LinkedList<Edge> edges = adj.get(i);
 		
@@ -82,5 +84,18 @@ public class AdjGraph implements Graph {
 	private void checkEdgesNumber(int i, int j) {
 		if(i >= verticesNumber || j >= verticesNumber) 
 			throw new IllegalArgumentException("illegal edges numbers: "+i+" to "+j);
+	}
+
+	@Override
+	public String getVerticeName(int vertice) {
+		if(vertice < 0 || vertice >= verticesNumber) throw new IllegalArgumentException();
+		
+		return names[vertice];
+	}
+
+	@Override
+	public void setVerticeName(int vertice, String name) {
+		if(vertice < 0 || vertice >= verticesNumber) throw new IllegalArgumentException();
+		names[vertice] = name;
 	}
 }

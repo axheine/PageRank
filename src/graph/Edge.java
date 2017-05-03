@@ -3,10 +3,10 @@ package graph;
 public class Edge {
 	private final int start;
 	private final int end;
-	private final int value;
+	private final float value;
 
 	
-	public Edge(int start, int end, int value) {
+	public Edge(int start, int end, float value) {
 		this.start = start;
 		this.end = end;
 		this.value = value;
@@ -16,7 +16,7 @@ public class Edge {
 		this(start, end , 1);
 	}
 	
-	public int getValue() {
+	public float getValue() {
 		return value;
 	}
 	
@@ -49,7 +49,7 @@ public class Edge {
 		int result = 1;
 		result = prime * result + end;
 		result = prime * result + start;
-		result = prime * result + value;
+		result = prime * result + (int)value;
 		return result;
 	}
 }
