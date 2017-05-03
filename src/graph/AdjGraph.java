@@ -87,15 +87,20 @@ public class AdjGraph implements Graph {
 	}
 
 	@Override
-	public String getVerticeName(int vertice) {
-		if(vertice < 0 || vertice >= verticesNumber) throw new IllegalArgumentException();
+	public String getVerticeName(int vertex) {
+		if(vertex < 0 || vertex >= verticesNumber) throw new IllegalArgumentException();
 		
-		return names[vertice];
+		return names[vertex];
 	}
 
 	@Override
-	public void setVerticeName(int vertice, String name) {
-		if(vertice < 0 || vertice >= verticesNumber) throw new IllegalArgumentException();
-		names[vertice] = name;
+	public void setVerticeName(int vertex, String name) {
+		if(vertex < 0 || vertex >= verticesNumber) throw new IllegalArgumentException();
+		names[vertex] = name;
+	}
+
+	@Override
+	public int getNeighborNumber(int vertex) {
+		return adj.get(vertex).size();
 	}
 }

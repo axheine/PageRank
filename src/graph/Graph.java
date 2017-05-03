@@ -326,5 +326,6 @@ public interface Graph {
 	void setVerticeName(int vertice, String name);
 	String getVerticeName(int vertice);
 	
+	int getNeighborNumber(int vertex);
 	
 }

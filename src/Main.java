@@ -8,7 +8,9 @@ import graph.WikipediaParser;
 
 public class Main {
 	public static void main(String[] args) throws IOException {
-		Graph g = WikipediaParser.makeGraphFromFile(Paths.get("test_files"+File.separator+"wiki-zulu.txt"), (int v) -> new AdjGraph(v));
+		Graph g = WikipediaParser.makeGraphFromFile(Paths.get("test_files"+File.separator+"wiki-zulu.txt"), 
+													v -> new AdjGraph(v),
+													graph -> 1f/(graph.numberOfVertices()*10));
 		
 	}
 }

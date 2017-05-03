@@ -10,10 +10,11 @@ import java.nio.charset.Charset;
 import java.nio.file.Path;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.function.Function;
 import java.util.function.IntFunction;
 
 public class WikipediaParser {
-	public static Graph makeGraphFromFile(Path path, IntFunction<Graph> factory) throws IOException {
+	public static Graph makeGraphFromFile(Path path, IntFunction<Graph> factory, Function<Graph, Float> eSupplier) throws IOException {
 		String[][] lines = readLinesFromFile(path);
 		int length = lines.length;
 		Graph g = factory.apply(length);
@@ -25,11 +26,13 @@ public class WikipediaParser {
 			i++;
 		}
 		
+		float e = eSupplier.apply(g);
+		
 		// Second passage : pour chaque nom associé à un vertex, ajouter l'edge
 		for (int i=0; i < length; i++) {
 			for(int j=1; j<lines[i].length; j++) {
 				if(names.containsKey(lines[i][j])) {
-					g.addEdge(i, names.get(lines[i][j]), 1.0f/length);
+					g.addEdge(i, names.get(lines[i][j]), (1-e));
 				}
 			}
 		}

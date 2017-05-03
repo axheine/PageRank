@@ -82,4 +82,10 @@ public class MatGraph implements Graph {
 		if(vertice < 0 || vertice >= verticesNumber) throw new IllegalArgumentException();
 		names[vertice] = name;
 	}
+
+	@Override
+	public int getNeighborNumber(int vertex) {
+		// TODO Auto-generated method stub
+		return 0;
+	}
 }
