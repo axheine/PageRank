@@ -41,6 +41,13 @@ public class WikipediaParser {
 			}
 		}
 		
+		// Ajout des edges "spéciaux" ("ma maman me dit que je suis schpécial!")
+		for (int i=0; i < length; i++) {
+			g.addEdge(i, g.SUPERNODE_INDEX);
+			g.addEdge(g.SUPERNODE_INDEX, i);
+			g.addEdge(i, i);
+		}
+		
 		
 		return g;
 	}
