@@ -11,13 +11,12 @@ import java.nio.file.Path;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.function.Function;
-import java.util.function.IntFunction;
 
 public class WikipediaParser {
-	public static Graph makeGraphFromFile(Path path, IntFunction<Graph> factory, Function<Graph, Float> eSupplier) throws IOException {
+	public static PageGraph makeGraphFromFile(Path path, Function<Graph, Float> eSupplier) throws IOException {
 		String[][] lines = readLinesFromFile(path);
 		int length = lines.length;
-		Graph g = factory.apply(length);
+		PageGraph g = new PageGraph(length);
 		HashMap<String, Integer> names = new HashMap<>();
 
 		// Pour chaque ligne, ajouter son nom
@@ -26,13 +25,18 @@ public class WikipediaParser {
 			i++;
 		}
 		
-		float e = eSupplier.apply(g);
+		g.setEpsilon(eSupplier.apply(g));
 		
-		// Second passage : pour chaque nom associé à un vertex, ajouter l'edge
+		
+		// Second passage : pour chaque lien, si la page cible existe, ajouter
 		for (int i=0; i < length; i++) {
+			// Définir le nom de l'origine
+			g.setVerticeName(i, lines[i][0]);
+			
 			for(int j=1; j<lines[i].length; j++) {
 				if(names.containsKey(lines[i][j])) {
-					g.addEdge(i, names.get(lines[i][j]), (1-e));
+					// Créer l'edge vers le voisin
+					g.addEdge(i, names.get(lines[i][j]));
 				}
 			}
 		}

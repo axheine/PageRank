@@ -13,6 +13,7 @@ public class PageGraph implements Graph {
 	private final String[] names;
 	private final float[] probabilities;
 	public final int SUPERNODE_INDEX;
+	private float epsilon;
 	
 	@SuppressWarnings("unchecked")
 	public PageGraph(int verticesNumber) {
@@ -115,6 +116,14 @@ public class PageGraph implements Graph {
 		checkEdgesNumber(vertice, 0);
 		return probabilities[vertice];
 	}
-	
-	
+
+
+	public float getEpsilon() {
+		return epsilon;
+	}
+
+
+	public void setEpsilon(float epsilon) {
+		this.epsilon = epsilon;
+	}
 }
