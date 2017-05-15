@@ -16,18 +16,18 @@ public class PageGraph implements Graph {
 	private float epsilon;
 	
 	@SuppressWarnings("unchecked")
-	public PageGraph(int verticesNumber) {
-		edges = (HashSet<Integer>[]) new HashSet[verticesNumber+1];
-		for(int i=0; i<verticesNumber+1; i++) {
+	public PageGraph(int vn) {
+		verticesNumber = vn+1;
+		edges = (HashSet<Integer>[]) new HashSet[verticesNumber];
+		for(int i=0; i<verticesNumber; i++) {
 			edges[i] = new HashSet<>();
 		}
 		
-		this.verticesNumber = verticesNumber;
 		names = new String[verticesNumber];
-		
-		probabilities = new float[verticesNumber+1];
-		
 		SUPERNODE_INDEX = verticesNumber;
+		names[SUPERNODE_INDEX] = "SUPERNODE_INDEX";
+		
+		probabilities = new float[verticesNumber];
 	}
 	
 	
@@ -49,6 +49,7 @@ public class PageGraph implements Graph {
 	public void addEdge(int i, int j) {
 		checkEdgesNumber(i, j);
 		edges[i].add(j);
+		edgesNumber++;
 	}
 
 	@Override
