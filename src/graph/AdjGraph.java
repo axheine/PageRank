@@ -100,7 +100,7 @@ public class AdjGraph implements Graph {
 	}
 
 	@Override
-	public int getNeighborNumber(int vertex) {
-		return adj.get(vertex).size();
+	public int getEdgeNumber(int vertice) {
+		return adj.get(vertice).size();
 	}
 }
