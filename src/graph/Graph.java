@@ -120,6 +120,7 @@ public interface Graph {
 			forEachEdge(i, consumer);
 		}
 	}
+	
 	/**
 	 * Fournit une réprésentaiuon du graphe au format .dot
 	 * 
@@ -327,7 +328,7 @@ public interface Graph {
 	String getVerticeName(int vertice);
 	
 	int getEdgeNumber(int vertice);
-	void setVerticeWeight(int vertice, float proba);
-	float getVerticeWeight(int vertice);
+	void setVerticeWeight(int vertice, double proba);
+	double getVerticeWeight(int vertice);
 	
 }

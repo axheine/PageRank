@@ -11,12 +11,13 @@ public class PageGraph implements Graph {
 	private final int verticesNumber;
 	private int edgesNumber = 0;
 	private final String[] names;
-	private final float[] probabilities;
+	private final double[] probabilities;
 	public final int SUPERNODE_INDEX;
-	private float epsilon;
+	private double epsilon;
 	
 	@SuppressWarnings("unchecked")
 	public PageGraph(int vn) {
+		SUPERNODE_INDEX = vn;
 		verticesNumber = vn+1;
 		edges = (HashSet<Integer>[]) new HashSet[verticesNumber];
 		for(int i=0; i<verticesNumber; i++) {
@@ -24,10 +25,10 @@ public class PageGraph implements Graph {
 		}
 		
 		names = new String[verticesNumber];
-		SUPERNODE_INDEX = verticesNumber;
+		
 		names[SUPERNODE_INDEX] = "SUPERNODE_INDEX";
 		
-		probabilities = new float[verticesNumber];
+		probabilities = new double[verticesNumber];
 	}
 	
 	
@@ -106,25 +107,25 @@ public class PageGraph implements Graph {
 
 
 	@Override
-	public void setVerticeWeight(int vertice, float proba) {
+	public void setVerticeWeight(int vertice, double proba) {
 		checkEdgesNumber(vertice, 0);
 		probabilities[vertice] = proba;
 	}
 
 
 	@Override
-	public float getVerticeWeight(int vertice) {
+	public double getVerticeWeight(int vertice) {
 		checkEdgesNumber(vertice, 0);
 		return probabilities[vertice];
 	}
 
 
-	public float getEpsilon() {
+	public double getEpsilon() {
 		return epsilon;
 	}
 
 
-	public void setEpsilon(float epsilon) {
+	public void setEpsilon(double epsilon) {
 		this.epsilon = epsilon;
 	}
 }
