@@ -1,25 +1,14 @@
 package pagerank;
 
-import java.io.File;
-import java.io.IOException;
-import java.nio.file.Paths;
-import java.util.Arrays;
 import java.util.Objects;
 
-import graph.MatrixParser;
 import graph.PageGraph;
 
 public class PageRank {
 	private final PageGraph g;
 	
-	private PageRank(PageGraph g) {
+	public PageRank(PageGraph g) {
 		this.g = Objects.requireNonNull(g);
-	}
-	
-	public static PageRank init(String fileName) throws IOException {
-		PageGraph g = MatrixParser.makeGraphFromMatrixFile(Paths.get("test_files/alea"+File.separator+fileName), 
-				graph -> 1f/(graph.numberOfVertices()*10));
-		return new PageRank(g);
 	}
 	
 	public double[] processPageRank(int k) {

@@ -16,6 +16,8 @@ import java.util.stream.Collectors;
 
 public class MatrixParser {	
 	
+	private static double[] resultStats;
+	
 	public static PageGraph makeGraphFromMatrixFile(Path path, Function<Graph, Float> eSupplier) throws FileNotFoundException, IOException {
 		String[][] lines = readLinesFromFile(path);
 		int length = lines.length;
@@ -60,22 +62,17 @@ public class MatrixParser {
 		for(int i = 0; i < lines.size() -2; i++) {
 			ret[i] = lines.get(i);
 		}
+		
+		String[] lineResult = lines.get(lines.size()-1);
+		resultStats = new double[lineResult.length];
+		for(int i = 0; i < lineResult.length; i++) {
+			String value = lineResult[i].subSequence(0, lineResult[i].length()-1).toString();
+			resultStats[i] = Double.valueOf(value);
+		}
 		return ret;
 	}
 	
-	/*private static List<String> getStatsFromFile(Path path, int n) throws FileNotFoundException, IOException {
-		List<String> stats;
-		try (	InputStream fis = new FileInputStream(path.toString());
-				InputStreamReader isr = new InputStreamReader(fis, Charset.forName("UTF-8"));
-				BufferedReader br = new BufferedReader(isr);
-			) {
-			 stats = br	.lines()
-				.skip(n)
-				.flatMap((l) -> {
-					return l.split(", ");
-				})
-				.collect(Collectors.toList());
-		}
-		return stats;
-	}*/
+	public static double[] getResultStat() {
+		return MatrixParser.resultStats;
+	}
 }
